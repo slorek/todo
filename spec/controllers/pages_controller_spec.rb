@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe PagesController do
+
   describe "#index" do
-    
-    let(:user) { User.create email: 'test@test.com', password: 'password', password_confirmation: 'password' }
+    let(:user) { FactoryGirl.create(:user) }
     
     context "when signed out" do
       before { sign_out user }
       
-      it "renders to view" do
+      it "renders the view template" do
         get :index
         expect(response).to render_template("index")
       end
