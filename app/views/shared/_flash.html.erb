@@ -1,17 +1,15 @@
-<% if flash.any? %>
-  <div class="container">
-    <% flash.each do |type, message| %>
-      <% bootstrap_class = {
-        success: 'alert-success',
-        notice: 'alert-info',
-        alert: 'alert-warning',
-        error: 'alert-danger'
-      }[type] || type.to_s %>
+<% if messages.any? %>
+  <% messages.each do |type, message| %>
+    <% bootstrap_class = {
+      success: 'alert-success',
+      notice: 'alert-info',
+      alert: 'alert-warning',
+      error: 'alert-danger'
+    }[type] || type.to_s %>
 
-      <div class="alert <%= bootstrap_class %> fade in">
-        <button class="close" data-dismiss="alert">×</button>
-        <%= message %>
-      </div>
-    <% end %>
-  </div>
+    <div class="alert <%= bootstrap_class %> fade in">
+      <button class="close" data-dismiss="alert">×</button>
+      <%= message.html_safe %>
+    </div>
+  <% end %>
 <% end %>
