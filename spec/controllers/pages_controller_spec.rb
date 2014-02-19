@@ -1,5 +1,26 @@
 require 'spec_helper'
 
 describe PagesController do
-
+  describe "#index" do
+    
+    let(:user) { User.create email: 'test@test.com', password: 'password', password_confirmation: 'password' }
+    
+    context "when signed out" do
+      before { sign_out user }
+      
+      it "renders to view" do
+        get :index
+        expect(response).to render_template("index")
+      end
+    end
+    
+    context "when signed in" do
+      before { sign_in user }
+      subject { get :index }
+      
+      it "redirects to tasks_path" do
+        expect(subject).to redirect_to(tasks_path)
+      end
+    end
+  end
 end
