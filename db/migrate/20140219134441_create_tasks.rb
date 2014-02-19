@@ -1,0 +1,18 @@
+class CreateTasks < ActiveRecord::Migration
+  def change
+    create_table :tasks do |t|
+      
+      t.references :user
+      t.string :name
+      t.datetime :due_date
+      t.integer :priority
+      t.boolean :completed
+      t.timestamps
+    end
+    
+    add_index :tasks, :user_id
+    add_index :tasks, :due_date
+    add_index :tasks, :priority
+    add_index :tasks, :completed
+  end
+end
