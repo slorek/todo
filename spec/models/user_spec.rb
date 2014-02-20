@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
     
-  let(:user) { FactoryGirl.build(:user) }
+  let(:user) { FactoryGirl.create(:user) }
   
   describe "token generation" do
     
@@ -15,6 +15,9 @@ describe User do
     
     describe "#ensure_authentication_token" do
       context "when #authentication_token is blank" do
+        
+        before { user.authentication_token = nil }
+        
         it "calls #generate_authentication_token" do
           expect(user).to receive(:generate_authentication_token)
           user.ensure_authentication_token
@@ -41,7 +44,7 @@ describe User do
 
       context "where a user exists with the same token" do
         before do
-          FactoryGirl.create(:user, authentication_token: 'test')
+          FactoryGirl.create(:user, email: 'another@email.com', authentication_token: 'test')
 
           # Only stub the first call
           Devise.stub(:friendly_token) do

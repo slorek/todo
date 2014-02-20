@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe TasksController do
+  
+  let(:params) { Hash.new }
+  
   describe "#index" do
     it_should_behave_like "an authenticated controller action", :get, :index
   end
@@ -13,7 +16,6 @@ describe TasksController do
     it_should_behave_like "an authenticated controller action", :post, :create
     
     context "when signed in" do
-      
       let(:user) { FactoryGirl.create(:user) }
       
       before { sign_in user }
@@ -43,6 +45,35 @@ describe TasksController do
         it "renders the #index view" do
           post :create, params
           expect(response).to render_template(:index)
+        end
+      end
+    end
+  end
+  
+  describe "#destroy" do
+    let(:task) { FactoryGirl.create :task }
+    let(:params) { { 'id' => task.id } }
+    
+    before { @user = task.user }
+    
+    it_should_behave_like "an authenticated controller action", :delete, :destroy
+    
+    context "when signed in" do
+      
+      before { sign_in @user }
+      
+      context "with a valid task ID parameter" do
+        it "calls #destroy on the Task instance" do
+          expect_any_instance_of(Task).to receive(:destroy)
+          delete(:destroy, params)
+        end
+      end
+    
+      context "with invalid parameters" do
+        let(:params) { { 'id' => 'dsfsdsdf' } }
+      
+        it "throws an ActionController::RoutingError" do
+          expect(->{ delete :destroy, params }).to raise_error(ActionController::RoutingError)
         end
       end
     end

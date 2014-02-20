@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-shared_examples_for "an authenticated controller action" do |method, action, params = {}|
-  let(:user) { FactoryGirl.create(:user) }
+shared_examples_for "an authenticated controller action" do |method, action|
+  before { @user ||= FactoryGirl.create(:user) }
   
   describe "session authentication" do
     context "when signed out" do
-      before { sign_out user }
+      before { sign_out @user }
     
       it "redirects to the sign in page" do
         send(method, action, params)
@@ -14,7 +14,7 @@ shared_examples_for "an authenticated controller action" do |method, action, par
     end
   
     context "when signed in" do
-      before { sign_in user }
+      before { sign_in @user }
       subject { send(method, action, params) }
     
       it "does not redirect to the sign in page" do
@@ -40,7 +40,7 @@ shared_examples_for "an authenticated controller action" do |method, action, par
     context "with the token parameter supplied" do
       
       before do
-        params[:authentication_token] = user.authentication_token
+        params[:authentication_token] = @user.authentication_token
         send(method, action, params)
       end
       
@@ -48,16 +48,16 @@ shared_examples_for "an authenticated controller action" do |method, action, par
         expect(response.status).to eq(401)
       end
       
-      context "and an email paramter supplied" do
+      context "and an email parameter supplied" do
         
         context "and the email and token parameters are valid" do
           before do
-            params[:authentication_email] = user.email
+            params[:authentication_email] = @user.email
             send(method, action, params)
           end
           
-          it "returns a 200 HTTP status code" do
-            expect(response.status).to eq(200)
+          it "does not return an error status" do
+            expect(response).not_to be_error
           end
           
           it "does not set a cookie" do
@@ -76,7 +76,7 @@ shared_examples_for "an authenticated controller action" do |method, action, par
             expect(response.status).to eq(401)
           end
         end
-
+        
         context "and the token parameter is invalid" do
           
           before do
