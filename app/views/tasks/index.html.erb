@@ -1,3 +1,31 @@
 <div class="container">
-  <h1>Tasks</h1>
+  <h1>My List</h1>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Add a task</h2>
+    </div>
+    <div class="panel-body">
+      <%= form_for(@task, url: tasks_path) do |f| %>
+        <%= form_error_messages(@task) %>
+
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
+        </div>
+
+        <%= f.submit "Add", class: 'btn btn-default' %>
+      <% end %>
+    </div>
+  </div>
+  
+  <% if @tasks.length == 0 %>
+    <p>You haven't added any tasks yet.</p>
+  <% else %>
+    <ul>
+    <% @tasks.each do |task| %>
+      <li><%= task.name %></li>
+    <% end %>
+    </ul>
+  <% end %>
 </div>
