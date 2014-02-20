@@ -6,7 +6,7 @@ class CreateTasks < ActiveRecord::Migration
       t.string :name
       t.datetime :due_date
       t.integer :priority
-      t.boolean :completed
+      t.boolean :completed, default: false
       t.timestamps
     end
     
