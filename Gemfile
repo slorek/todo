@@ -35,16 +35,14 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development do
-  gem 'pry'
-end
-
 group :development, :test do
+  gem 'pry'
   gem 'rspec-rails'
 end
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
 # Use ActiveModel has_secure_password
