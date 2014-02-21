@@ -16,7 +16,16 @@
     <ul>
     <% @tasks.each do |task| %>
       <li>
-        <%= task.name %>
+        <%= task.name %><br>
+        
+        <% if task.due_date %>
+          Due: <%= task.due_date %><br>
+        <% end %>
+        
+        <% if task.priority %>
+          Priority: <%= task.priority %><br>
+        <% end %>
+        
         <%= button_to 'Edit', edit_task_path(task.id), method: :get %>
         <%= button_to 'Delete', task_path(task.id), method: :delete %>
         <%= button_to 'Completed', completed_task_path(task.id), method: :patch %>
