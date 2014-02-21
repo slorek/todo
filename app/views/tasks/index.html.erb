@@ -20,13 +20,14 @@
   </div>
   
   <% if @tasks.length == 0 %>
-    <p>You haven't added any tasks yet.</p>
+    <p>You have no pending tasks.</p>
   <% else %>
     <ul>
     <% @tasks.each do |task| %>
       <li>
         <%= task.name %>
         <%= button_to 'Delete', task_path(task.id), method: :delete %>
+        <%= button_to 'Completed', completed_task_path(task.id), method: :put %>
       </li>
     <% end %>
     </ul>

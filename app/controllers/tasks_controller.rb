@@ -36,6 +36,26 @@ class TasksController < ApplicationController
     
     respond_with(@task)
   end
+
+  def completed
+    @task = get_task(params[:id])
+    @task.completed = true
+    
+    @task.save
+    
+    respond_with(@task) do |format|
+      format.html do
+        if @task.errors.empty?
+          flash[:notice] = "Task completed"
+          redirect_to tasks_path
+        else
+          flash[:error] = @task.errors.full_messages
+          @tasks = get_all_tasks
+          render :index
+        end
+      end
+    end
+  end
   
   private
     def sanitized_task_params

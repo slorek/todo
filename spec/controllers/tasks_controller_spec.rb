@@ -65,7 +65,7 @@ describe TasksController do
       context "with a valid task ID parameter" do
         it "calls #destroy on the Task instance" do
           expect_any_instance_of(Task).to receive(:destroy)
-          delete(:destroy, params)
+          delete :destroy, params
         end
       end
     
@@ -74,6 +74,36 @@ describe TasksController do
       
         it "throws an ActionController::RoutingError" do
           expect(->{ delete :destroy, params }).to raise_error(ActionController::RoutingError)
+        end
+      end
+    end
+  end
+
+  describe "#completed" do
+    let(:task) { FactoryGirl.create :task }
+    let(:params) { { 'id' => task.id } }
+    
+    before { @user = task.user }
+    
+    it_should_behave_like "an authenticated controller action", :put, :completed
+    
+    context "when signed in" do
+      
+      before { sign_in @user }
+      
+      context "with a valid task ID parameter" do
+        it "sets completed=true on the Task instance" do
+          put :completed, params
+          task.reload
+          expect(task.completed).to eq(true)
+        end
+      end
+    
+      context "with invalid parameters" do
+        let(:params) { { 'id' => 'dsfsdsdf' } }
+      
+        it "throws an ActionController::RoutingError" do
+          expect(->{ put :completed, params }).to raise_error(ActionController::RoutingError)
         end
       end
     end
