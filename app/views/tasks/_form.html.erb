@@ -1,0 +1,10 @@
+<%= form_for(@task) do |f| %>
+  <%= form_error_messages(@task) %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
+  </div>
+
+  <%= f.submit "Save", class: 'btn btn-default' %>
+<% end %>

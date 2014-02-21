@@ -3,7 +3,7 @@ Todo::Application.routes.draw do
 
   resources :tasks do
     member do
-      put :completed
+      patch :completed
     end
   end
 

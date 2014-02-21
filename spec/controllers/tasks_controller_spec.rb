@@ -93,7 +93,7 @@ describe TasksController do
       
       context "with a valid task ID parameter" do
         it "sets completed=true on the Task instance" do
-          put :completed, params
+          patch :completed, params
           task.reload
           expect(task.completed).to eq(true)
         end
@@ -103,9 +103,85 @@ describe TasksController do
         let(:params) { { 'id' => 'dsfsdsdf' } }
       
         it "throws an ActionController::RoutingError" do
-          expect(->{ put :completed, params }).to raise_error(ActionController::RoutingError)
+          expect(->{ patch :completed, params }).to raise_error(ActionController::RoutingError)
         end
       end
     end
   end
+
+  describe "#edit" do
+    let(:task) { FactoryGirl.create :task }
+    let(:params) { { 'id' => task.id } }
+    
+    before { @user = task.user }
+    
+    it_should_behave_like "an authenticated controller action", :get, :edit
+    
+    context "when signed in" do
+      
+      before { sign_in @user }
+      
+      context "with a valid task ID parameter" do
+        it "returns success" do
+          get :edit, params
+          expect(response).to be_success
+        end
+      end
+    
+      context "with invalid parameters" do
+        let(:params) { { 'id' => 'dsfsdsdf' } }
+      
+        it "throws an ActionController::RoutingError" do
+          expect(->{ get :edit, params }).to raise_error(ActionController::RoutingError)
+        end
+      end
+    end
+  end
+  
+  describe "#update" do
+    let(:task) { FactoryGirl.create :task }
+    let(:params) do
+      {
+        'id' => task.id,
+        'task' => { 'name' => 'test2' }
+      }
+    end
+    
+    before { @user = task.user }
+    
+    it_should_behave_like "an authenticated controller action", :patch, :update
+    
+    context "when signed in" do
+      
+      before { sign_in @user }
+      
+      it "updates the Task instance" do
+        patch :update, params
+        task.reload
+        expect(task.name).to eq('test2')
+      end
+      
+      context "with valid parameters" do
+        it "redirects to tasks_path" do
+          patch :update, params
+          expect(response).to redirect_to(tasks_path)
+        end
+      end
+      
+      context "with invalid parameters" do
+        let(:params) do
+          {
+            'id' => task.id,
+            'task' => { 'name' => '' }
+          }
+        end
+        
+        it "renders the #edit view" do
+          patch :update, params
+          expect(response).to render_template(:edit)
+        end
+      end
+    end
+  end
+  
 end

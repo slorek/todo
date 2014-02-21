@@ -6,16 +6,7 @@
       <h2 class="panel-title">Add a task</h2>
     </div>
     <div class="panel-body">
-      <%= form_for(@task, url: tasks_path) do |f| %>
-        <%= form_error_messages(@task) %>
-
-        <div class="form-group">
-          <%= f.label :name %>
-          <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
-        </div>
-
-        <%= f.submit "Add", class: 'btn btn-default' %>
-      <% end %>
+      <%= render partial: 'form' %>
     </div>
   </div>
   
@@ -26,8 +17,9 @@
     <% @tasks.each do |task| %>
       <li>
         <%= task.name %>
+        <%= button_to 'Edit', edit_task_path(task.id), method: :get %>
         <%= button_to 'Delete', task_path(task.id), method: :delete %>
-        <%= button_to 'Completed', completed_task_path(task.id), method: :put %>
+        <%= button_to 'Completed', completed_task_path(task.id), method: :patch %>
       </li>
     <% end %>
     </ul>

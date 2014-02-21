@@ -57,6 +57,27 @@ class TasksController < ApplicationController
     end
   end
   
+  def edit
+    @task = get_task(params[:id])
+  end
+  
+  def update
+    @task = get_task(params[:id])
+    @task.update_attributes(sanitized_task_params)
+
+    respond_with(@task) do |format|
+      format.html do
+        if @task.errors.empty?
+          flash[:notice] = "Task updated"
+          redirect_to tasks_path
+        else
+          render :edit
+        end
+      end
+    end
+  end
+  
+  
   private
     def sanitized_task_params
       params[:task] ||= {}
