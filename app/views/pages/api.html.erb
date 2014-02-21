@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>API</h1>
+  
+  <p>To use the API, you need to supply your authentication credentials.</p>
+  
+  <h2>Your Credentials</h2>
+  <% if signed_in? %>
+    <p>You must supply the following parameters on each request to the API:</p>
+  
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Parameter name</td>
+          <th>Value</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>authentication_token</td>
+          <td><%= current_user.authentication_token %></td>
+        </tr>
+        <tr>
+          <td>authentication_email</td>
+          <td><%= current_user.email %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% else %>
+    <p><%= link_to 'Sign in', new_user_session_path %> to get your access credentials.</p>
+  <% end %>
+  
+</div>

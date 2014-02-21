@@ -5,4 +5,7 @@ class PagesController < ApplicationController
   
   def documentation
   end
+  
+  def api
+  end
 end
