@@ -5,7 +5,7 @@ class CreateTasks < ActiveRecord::Migration
       t.references :user
       t.string :name
       t.datetime :due_date
-      t.integer :priority
+      t.integer :priority, default: nil
       t.boolean :completed, default: false
       t.timestamps
     end

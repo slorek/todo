@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>My List</h1>
+  <h1>My List <span class="badge"><%= @tasks.count %></span></h1>
   
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -10,25 +10,47 @@
     </div>
   </div>
   
-  <% if @tasks.length == 0 %>
+  <% if @tasks.count == 0 %>
     <p>You have no pending tasks.</p>
   <% else %>
+    
+    <ul class="nav nav-pills">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          Sort <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li class="<%= sort_class(:name) %>"><%= link_to 'Name', tasks_path %></li>
+          <li class="<%= sort_class(:due_date) %>"><%= link_to 'Due Date', tasks_path(sort: :due_date) %></li>
+          <li class="<%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority) %></li>
+        </ul>
+      </li>
+    </ul>
+    
     <ul>
     <% @tasks.each do |task| %>
       <li>
         <%= task.name %><br>
         
         <% if task.due_date %>
-          Due: <%= task.due_date %><br>
+          Due:
+          <% if task.due_date < Time.now %>
+            <span class="label label-danger"><%= time_ago_in_words task.due_date %> ago</span>
+          <% else %>
+            <%= distance_of_time_in_words Time.now task.due_date %>
+          <% end %>
+          <br>
         <% end %>
         
         <% if task.priority %>
           Priority: <%= task.priority %><br>
         <% end %>
         
-        <%= button_to 'Edit', edit_task_path(task.id), method: :get %>
-        <%= button_to 'Delete', task_path(task.id), method: :delete %>
-        <%= button_to 'Completed', completed_task_path(task.id), method: :patch %>
+        <div class="btn-group">
+          <%= button_to 'Edit', edit_task_path(task.id), method: :get, class: 'btn btn-default' %>
+          <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-default' %>
+          <%= button_to 'Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+        </div>
       </li>
     <% end %>
     </ul>

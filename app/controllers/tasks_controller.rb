@@ -90,6 +90,12 @@ class TasksController < ApplicationController
     end
     
     def get_all_tasks
-      Task.pending.where(user_id: current_user.id)
+      order = {
+        name: :name,
+        due_date: 'due_date IS NULL, due_date',
+        priority: 'priority IS NULL, priority',
+      }[(params[:sort] || :name).to_sym]
+      
+      Task.pending.where(user_id: current_user.id).order(order)
     end
 end
