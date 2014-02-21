@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
+  
   before_filter :authenticate_user_from_token!
   before_filter :authenticate_user!
   
   respond_to :html
-    
+  respond_to :json, except: [:edit]
+  
   def index
     @tasks = get_all_tasks
     @task = Task.new
@@ -82,7 +84,7 @@ class TasksController < ApplicationController
     def sanitized_task_params
       params[:task] ||= {}
       params[:task][:user_id] = current_user.id
-      params.require(:task).permit(:user_id, :name, :due_date, :priority)
+      params.require(:task).permit(:user_id, :name, :due_date, :priority, :completed)
     end
     
     def get_task(id)

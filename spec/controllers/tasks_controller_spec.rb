@@ -6,6 +6,7 @@ describe TasksController do
   
   describe "#index" do
     it_should_behave_like "an authenticated controller action", :get, :index
+    it_should_behave_like "an authenticated API controller action", :get, :index
   end
   
   describe "#create" do
@@ -14,6 +15,7 @@ describe TasksController do
     end
     
     it_should_behave_like "an authenticated controller action", :post, :create
+    it_should_behave_like "an authenticated API controller action", :post, :create
     
     context "when signed in" do
       let(:user) { FactoryGirl.create(:user) }
@@ -57,6 +59,7 @@ describe TasksController do
     before { @user = task.user }
     
     it_should_behave_like "an authenticated controller action", :delete, :destroy
+    it_should_behave_like "an authenticated API controller action", :delete, :destroy
     
     context "when signed in" do
       
@@ -86,6 +89,7 @@ describe TasksController do
     before { @user = task.user }
     
     it_should_behave_like "an authenticated controller action", :put, :completed
+    it_should_behave_like "an authenticated API controller action", :put, :completed
     
     context "when signed in" do
       
@@ -150,6 +154,7 @@ describe TasksController do
     before { @user = task.user }
     
     it_should_behave_like "an authenticated controller action", :patch, :update
+    it_should_behave_like "an authenticated API controller action", :patch, :update
     
     context "when signed in" do
       
@@ -183,5 +188,4 @@ describe TasksController do
       end
     end
   end
-  
 end
