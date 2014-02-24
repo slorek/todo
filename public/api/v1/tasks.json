@@ -8,7 +8,7 @@
       "path": "tasks.json",
       "operations": [
         {
-          "summary": "Fetches all Tasks for the authenticated user",
+          "summary": "Fetch all Tasks for the authenticated user",
           "parameters": [
             {
               "paramType": "query",
@@ -51,7 +51,7 @@
       "path": "tasks.json",
       "operations": [
         {
-          "summary": "Creates a new Task",
+          "summary": "Create a new Task",
           "parameters": [
             {
               "paramType": "query",
@@ -232,7 +232,7 @@
       "path": "tasks/{id}.json",
       "operations": [
         {
-          "summary": "Deletes a Task",
+          "summary": "Delete a Task",
           "parameters": [
             {
               "paramType": "query",

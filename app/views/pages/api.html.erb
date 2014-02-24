@@ -1,26 +1,29 @@
-<div class="container">
-  <h1>API</h1>
-  
-  <p>To use the API, you need to supply your authentication credentials.</p>
-  
+<div id="header">
+  <div class="swagger-ui-wrap">
+    <a id="logo" href="/docs">To Do Application - API</a>
+  </div>
+</div>
+
+<div class="credentials swagger-ui-wrap">
   <h2>Your Credentials</h2>
+
   <% if signed_in? %>
     <p>You must supply the following parameters on each request to the API:</p>
-  
-    <table class="table table-striped">
+
+    <table class="fullwidth">
       <thead>
         <tr>
-          <th>Parameter name</td>
+          <th>Parameter</td>
           <th>Value</td>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="operation-params">
         <tr>
-          <td>authentication_token</td>
+          <td class="code required">authentication_token</td>
           <td><%= current_user.authentication_token %></td>
         </tr>
         <tr>
-          <td>authentication_email</td>
+          <td class="code required">authentication_email</td>
           <td><%= current_user.email %></td>
         </tr>
       </tbody>
@@ -28,5 +31,40 @@
   <% else %>
     <p><%= link_to 'Sign in', new_user_session_path %> to get your access credentials.</p>
   <% end %>
-  
 </div>
+
+
+<script type="text/javascript">
+  $(function () {
+    window.swaggerUi = new SwaggerUi({
+      url: '/api/v1/api-docs.json',
+      dom_id:"swagger-ui-container",
+      supportHeaderParams: false,
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+      onComplete: function(swaggerApi, swaggerUi){
+        if(console) {
+              console.log("Loaded SwaggerUI")
+              console.log(swaggerApi);
+              console.log(swaggerUi);
+          }
+        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+      },
+      onFailure: function(data) {
+        if(console) {
+              console.log("Unable to Load SwaggerUI");
+              console.log(data);
+          }
+      },
+      docExpansion: "list"
+    });
+
+    window.swaggerUi.load();
+  });
+
+</script>
+
+<div id="message-bar" class="swagger-ui-wrap">
+    &nbsp;
+</div>
+
+<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
