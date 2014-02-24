@@ -43,7 +43,7 @@ class TasksController < ApplicationController
 
   def completed
     @task = get_task(params[:id])
-    @task.completed = true
+    @task.completed_at = Time.now
     
     @task.save
     
@@ -100,6 +100,8 @@ class TasksController < ApplicationController
         priority: 'priority IS NULL, priority',
       }[(params[:sort] || :name).to_sym]
       
-      Task.pending.where(user_id: current_user.id).order(order)
+      scope = params[:completed].present? ? :completed : :pending
+      
+      Task.send(scope).where(user_id: current_user.id).order(order)
     end
 end

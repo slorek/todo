@@ -10,12 +10,12 @@
     </div>
   </div>
   
-  <% if @tasks.count == 0 %>
-    <p>You have no pending tasks.</p>
-  <% else %>
+  <ul class="nav nav-tabs">
+    <li class="<%= completed_class(:pending) %>"><%= link_to 'Pending', tasks_path %></li>
+    <li class="<%= completed_class(:completed) %>"><%= link_to 'Completed', tasks_path(completed: true) %></li>
     
-    <ul class="nav nav-pills">
-      <li class="dropdown">
+    <% if @tasks.count > 0 %>
+      <li class="dropdown pull-right">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           Sort <span class="caret"></span>
         </a>
@@ -25,8 +25,13 @@
           <li class="<%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority) %></li>
         </ul>
       </li>
-    </ul>
-    
+    <% end %>
+  </ul>
+  
+  
+  <% if @tasks.count == 0 %>
+    <p>You have no tasks.</p>
+  <% else %>    
     <ul>
     <% @tasks.each do |task| %>
       <li>
@@ -49,7 +54,12 @@
         <div class="btn-group">
           <%= button_to 'Edit', edit_task_path(task.id), method: :get, class: 'btn btn-default' %>
           <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-default' %>
-          <%= button_to 'Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+          
+          <% if task.completed? %>
+            <%= button_to 'Mark Incomplete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+          <% else %>
+            <%= button_to 'Mark Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+          <% end %>
         </div>
       </li>
     <% end %>

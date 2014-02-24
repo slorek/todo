@@ -3,5 +3,5 @@ json.array! @tasks do |task|
   json.name task.name
   json.due_date task.due_date
   json.priority task.priority
-  json.completed task.completed
+  json.completed_at task.completed_at
 end

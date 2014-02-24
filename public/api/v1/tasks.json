@@ -30,6 +30,13 @@
               "type": "string",
               "description": "Sort field (name, due_date, priority)",
               "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "completed",
+              "type": "boolean",
+              "description": "Get completed tasks only",
+              "required": false
             }
           ],
           "responseMessages": [

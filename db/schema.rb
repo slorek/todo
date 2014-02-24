@@ -18,12 +18,12 @@ ActiveRecord::Schema.define(version: 20140220102803) do
     t.string   "name"
     t.datetime "due_date"
     t.integer  "priority"
-    t.boolean  "completed",  default: false
+    t.datetime "completed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "tasks", ["completed"], name: "index_tasks_on_completed"
+  add_index "tasks", ["completed_at"], name: "index_tasks_on_completed_at"
   add_index "tasks", ["due_date"], name: "index_tasks_on_due_date"
   add_index "tasks", ["priority"], name: "index_tasks_on_priority"
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id"

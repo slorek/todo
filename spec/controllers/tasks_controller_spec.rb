@@ -96,10 +96,10 @@ describe TasksController do
       before { sign_in @user }
       
       context "with a valid task ID parameter" do
-        it "sets completed=true on the Task instance" do
+        it "sets completed_at on the Task instance" do
           patch :completed, params
           task.reload
-          expect(task.completed).to eq(true)
+          expect(task.completed?).to eq(true)
         end
       end
     
