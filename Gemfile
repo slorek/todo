@@ -48,6 +48,7 @@ end
 group :development, :test do
   gem 'pry'
   gem 'rspec-rails'
+  gem 'jasmine-rails'
 end
 
 group :test do
