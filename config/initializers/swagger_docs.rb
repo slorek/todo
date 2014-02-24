@@ -7,6 +7,12 @@ Swagger::Docs::Config.register_apis({
     # the URL base path to your API 
     :base_path => "http://localhost:3000", 
     # if you want to delete all .json files at each generation
-    :clean_directory => false 
+    :clean_directory => true 
   }
 })
+
+class Swagger::Docs::Config
+  def self.transform_path(path)
+    "/api/v1/#{path}"
+  end
+end
