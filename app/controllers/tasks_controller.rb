@@ -6,16 +6,6 @@ class TasksController < ApplicationController
   respond_to :html
   respond_to :json, except: [:edit]
   
-  swagger_controller :tasks, "Task Management"
-
-  swagger_api :index do
-    summary "Fetches all Tasks for the authenticated user"
-    param :query, :authentication_token, :string, :required, "User's authentication token"
-    param :query, :authentication_email, :string, :required, "User's registered e-mail address"
-    param :query, :sort, :string, :optional, "Sort field (name, due_date, priority)"
-    response :unauthorized
-  end
-  
   def index
     @task = Task.new
     @tasks = get_all_tasks
