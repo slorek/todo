@@ -1,6 +1,12 @@
 module TasksHelper
   def priority_options
-    (1..5).to_a
+    {
+      1 => 'Low',
+      2 => 'Minor',
+      3 => 'Normal',
+      4 => 'High',
+      5 => 'Urgent'
+    }
   end
   
   def sort_class(option)

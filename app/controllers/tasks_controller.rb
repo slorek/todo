@@ -8,7 +8,7 @@ class TasksController < ApplicationController
   
   def index
     @task = Task.new
-    @tasks = get_all_tasks
+    get_all_tasks
 
     respond_with(@tasks)
   end
@@ -22,7 +22,7 @@ class TasksController < ApplicationController
           flash[:notice] = "Task added to your list"
           redirect_to tasks_path
         else
-          @tasks = get_all_tasks
+          get_all_tasks
           render :index
         end
       end
@@ -56,7 +56,7 @@ class TasksController < ApplicationController
           redirect_to tasks_path
         else
           flash[:error] = @task.errors.full_messages
-          @tasks = get_all_tasks
+          get_all_tasks
           render :index
         end
       end
@@ -78,7 +78,7 @@ class TasksController < ApplicationController
           redirect_to tasks_path
         else
           flash[:error] = @task.errors.full_messages
-          @tasks = get_all_tasks
+          get_all_tasks
           render :index
         end
       end
@@ -126,6 +126,8 @@ class TasksController < ApplicationController
       
       scope = params[:completed].present? ? :completed : :pending
       
-      Task.send(scope).where(user_id: current_user.id).order(order)
+      @tasks = Task.send(scope).where(user_id: current_user.id).order(order)
+      @pending_badge = Task.pending.where(user_id: current_user.id).count
+      @completed_badge = Task.completed.where(user_id: current_user.id).count
     end
 end

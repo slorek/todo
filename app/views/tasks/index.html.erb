@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>My List <span class="badge"><%= @tasks.count %></span></h1>
+  <h1>My List</h1>
   
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -11,8 +11,22 @@
   </div>
   
   <ul class="nav nav-tabs">
-    <li class="<%= completed_class(:pending) %>"><%= link_to 'Pending', tasks_path %></li>
-    <li class="<%= completed_class(:completed) %>"><%= link_to 'Completed', tasks_path(completed: true) %></li>
+    <li class="<%= completed_class(:pending) %>">
+      <%= link_to tasks_path do %>
+        Pending
+        <% if @pending_badge > 0 %>
+          <span class="badge"><%= @pending_badge %></span>
+        <% end %>
+      <% end %>
+    </li>
+    <li class="<%= completed_class(:completed) %>">
+      <%= link_to tasks_path(completed: true) do %>
+        Completed
+        <% if @completed_badge > 0 %>
+          <span class="badge"><%= @completed_badge %></span>
+        <% end %>
+      <% end %>
+    </li>
   </ul>
   
   
@@ -23,7 +37,7 @@
       <thead>
         <tr>
           <th class="<%= sort_class(:name) %>"><%= link_to 'Name', tasks_path(completed: params[:completed]) %></th>
-          <th class="<%= sort_class(:due_date) %>"><%= link_to 'Due Date', tasks_path(sort: :due_date, completed: params[:completed]) %></th>
+          <th class="<%= sort_class(:due_date) %>"><%= link_to 'Due', tasks_path(sort: :due_date, completed: params[:completed]) %></th>
           <th class="priority <%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority, completed: params[:completed]) %></th>
           <th class="actions"></th>
         </tr>
@@ -43,7 +57,7 @@
               <% end %>
             </td>
             
-            <td class="priority"><%= task.priority %></td>
+            <td class="priority"><%= priority_options[task.priority] || task.priority %></td>
             
             <td class="actions">
               <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-danger' %>

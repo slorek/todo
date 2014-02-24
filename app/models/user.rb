@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
   
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   
   validates_uniqueness_of :email, :authentication_token
 

@@ -1,12 +1,14 @@
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 
 body { padding: 20px 0; }
 
 table.tasks {
   margin-top: 1em;
   form, form div { display: inline; }
-  .priority { text-align: center; }
   .actions { text-align: right; }
 }
 
 .message { margin-top: 1em; }
+
+.input-group-addon { width: auto; }
