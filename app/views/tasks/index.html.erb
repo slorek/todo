@@ -13,56 +13,50 @@
   <ul class="nav nav-tabs">
     <li class="<%= completed_class(:pending) %>"><%= link_to 'Pending', tasks_path %></li>
     <li class="<%= completed_class(:completed) %>"><%= link_to 'Completed', tasks_path(completed: true) %></li>
-    
-    <% if @tasks.count > 0 %>
-      <li class="dropdown pull-right">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          Sort <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-          <li class="<%= sort_class(:name) %>"><%= link_to 'Name', tasks_path %></li>
-          <li class="<%= sort_class(:due_date) %>"><%= link_to 'Due Date', tasks_path(sort: :due_date) %></li>
-          <li class="<%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority) %></li>
-        </ul>
-      </li>
-    <% end %>
   </ul>
   
   
   <% if @tasks.count == 0 %>
-    <p>You have no tasks.</p>
+    <p class="message">You have no tasks.</p>
   <% else %>    
-    <ul>
-    <% @tasks.each do |task| %>
-      <li>
-        <%= task.name %><br>
-        
-        <% if task.due_date %>
-          Due:
-          <% if task.due_date < Time.now %>
-            <span class="label label-danger"><%= time_ago_in_words task.due_date %> ago</span>
-          <% else %>
-            <%= distance_of_time_in_words Time.now task.due_date %>
-          <% end %>
-          <br>
-        <% end %>
-        
-        <% if task.priority %>
-          Priority: <%= task.priority %><br>
-        <% end %>
-        
-        <div class="btn-group">
-          <%= button_to 'Edit', edit_task_path(task.id), method: :get, class: 'btn btn-default' %>
-          <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-default' %>
+    <table class="table table-striped table-responsive tasks">
+      <thead>
+        <tr>
+          <th class="<%= sort_class(:name) %>"><%= link_to 'Name', tasks_path(completed: params[:completed]) %></th>
+          <th class="<%= sort_class(:due_date) %>"><%= link_to 'Due Date', tasks_path(sort: :due_date, completed: params[:completed]) %></th>
+          <th class="priority <%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority, completed: params[:completed]) %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= link_to task.name, edit_task_path(task) %></td>
+            
+            <td>
+              <% if task.due_date %>
+                <% if task.due_date < Time.now %>
+                  <span class="label label-danger"><%= time_ago_in_words task.due_date %> ago</span>
+                <% else %>
+                  <%= distance_of_time_in_words Time.now task.due_date %>
+                <% end %>
+              <% end %>
+            </td>
+            
+            <td class="priority"><%= task.priority %></td>
+            
+            <td>
+              <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-danger' %>
           
-          <% if task.completed? %>
-            <%= button_to 'Mark Incomplete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
-          <% else %>
-            <%= button_to 'Mark Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
-          <% end %>
-        </div>
-      </li>
-    <% end %>
-    </ul>
+              <% if task.completed? %>
+                <%= button_to 'Mark Incomplete', incomplete_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+              <% else %>
+                <%= button_to 'Mark Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 </div>

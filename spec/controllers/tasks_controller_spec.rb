@@ -88,8 +88,8 @@ describe TasksController do
     
     before { @user = task.user }
     
-    it_should_behave_like "an authenticated controller action", :put, :completed
-    it_should_behave_like "an authenticated API controller action", :put, :completed
+    it_should_behave_like "an authenticated controller action", :patch, :completed
+    it_should_behave_like "an authenticated API controller action", :patch, :completed
     
     context "when signed in" do
       
@@ -108,6 +108,37 @@ describe TasksController do
       
         it "throws an ActionController::RoutingError" do
           expect(->{ patch :completed, params }).to raise_error(ActionController::RoutingError)
+        end
+      end
+    end
+  end
+
+  describe "#incomplete" do
+    let(:task) { FactoryGirl.create :task, completed_at: Time.now }
+    let(:params) { { 'id' => task.id } }
+    
+    before { @user = task.user }
+    
+    it_should_behave_like "an authenticated controller action", :patch, :incomplete
+    it_should_behave_like "an authenticated API controller action", :patch, :incomplete
+    
+    context "when signed in" do
+      
+      before { sign_in @user }
+      
+      context "with a valid task ID parameter" do
+        it "sets completed_at on the Task instance" do
+          patch :incomplete, params
+          task.reload
+          expect(task.completed?).to eq(false)
+        end
+      end
+    
+      context "with invalid parameters" do
+        let(:params) { { 'id' => 'dsfsdsdf' } }
+      
+        it "throws an ActionController::RoutingError" do
+          expect(->{ patch :incomplete, params }).to raise_error(ActionController::RoutingError)
         end
       end
     end

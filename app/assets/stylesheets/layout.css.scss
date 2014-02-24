@@ -1,3 +1,11 @@
 @import "bootstrap";
 
 body { padding: 20px 0; }
+
+table.tasks {
+  margin-top: 1em;
+  form, form div { display: inline; }
+  .priority { text-align: center; }
+}
+
+.message { margin-top: 1em; }

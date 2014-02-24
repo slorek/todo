@@ -10,7 +10,7 @@
 
 <div class="container">
   <%= render :partial => 'shared/nav' %>
-  <%= render :partial => 'shared/flash', locals: { messages: flash } %>
+  <%= render :partial => 'shared/flash', locals: { messages: flash.select {|k, v| [:notice, :error, :alert, :success].include?(k) } } %>
 </div>
 
 <%= yield %>

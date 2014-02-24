@@ -4,6 +4,7 @@ Todo::Application.routes.draw do
   resources :tasks do
     member do
       patch :completed
+      patch :incomplete
     end
   end
 

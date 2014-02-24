@@ -51,6 +51,30 @@ class TasksController < ApplicationController
       format.html do
         if @task.errors.empty?
           flash[:notice] = "Task completed"
+          flash[:undo_action] = incomplete_task_path(@task)
+          flash[:undo_method] = :patch
+          redirect_to tasks_path
+        else
+          flash[:error] = @task.errors.full_messages
+          @tasks = get_all_tasks
+          render :index
+        end
+      end
+    end
+  end
+
+  def incomplete
+    @task = get_task(params[:id])
+    @task.completed_at = nil
+    
+    @task.save
+    
+    respond_with(@task) do |format|
+      format.html do
+        if @task.errors.empty?
+          flash[:notice] = "Task marked as incomplete"
+          flash[:undo_action] = completed_task_path(@task)
+          flash[:undo_method] = :patch
           redirect_to tasks_path
         else
           flash[:error] = @task.errors.full_messages
