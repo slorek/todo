@@ -1,0 +1,17 @@
+<% if @tasks.count == 0 %>
+  <p class="message">You have no tasks.</p>
+<% else %>    
+  <table class="table table-striped table-responsive tasks">
+    <thead>
+      <tr>
+        <th class="<%= sort_class(:name) %>"><%= link_to 'Name', tasks_path(completed: params[:completed]) %></th>
+        <th class="<%= sort_class(:due_date) %>"><%= link_to 'Due', tasks_path(sort: :due_date, completed: params[:completed]) %></th>
+        <th class="priority <%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority, completed: params[:completed]) %></th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: 'task', collection: @tasks %>
+    </tbody>
+  </table>
+<% end %>

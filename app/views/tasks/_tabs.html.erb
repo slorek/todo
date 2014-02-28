@@ -1,0 +1,18 @@
+<ul class="nav nav-tabs">
+  <li class="<%= completed_class(:pending) %>">
+    <%= link_to tasks_path do %>
+      Pending
+      <% if @pending_badge > 0 %>
+        <span class="badge"><%= @pending_badge %></span>
+      <% end %>
+    <% end %>
+  </li>
+  <li class="<%= completed_class(:completed) %>">
+    <%= link_to tasks_path(completed: true) do %>
+      Completed
+      <% if @completed_badge > 0 %>
+        <span class="badge"><%= @completed_badge %></span>
+      <% end %>
+    <% end %>
+  </li>
+</ul>

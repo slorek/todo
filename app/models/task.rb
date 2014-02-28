@@ -3,7 +3,7 @@ class Task < ActiveRecord::Base
   belongs_to :user
   
   validates :name, :user, presence: true
-  validates :priority, inclusion: { in: (1..5).to_a }, allow_nil: true
+  validates :priority, inclusion: { in: (1..5).to_a }, allow_blank: true
   
   def completed?
     !completed_at.nil?

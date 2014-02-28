@@ -12,7 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+//= require angular
+//= require angular-route
+//= require bootstrap/tab
+//= require bootstrap/alert
 //= require moment
 //= require bootstrap-datetimepicker
 //= require datepicker
+//= require_tree ./todo

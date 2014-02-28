@@ -38,9 +38,7 @@ If you are not running the server on http://localhost:3000 you'll need to edit s
 
 1. `RAILS_ENV=test rake db:migrate`
 2. `bundle exec rake spec`
-3. `bundle exec rake spec:javascript`
-
-Run `RAILS_ENV=test rake db:migrate && bundle exec rspec spec` to run the test suite.
+3. `bundle exec rake spec:javascripts`
 
 ## Registration
 

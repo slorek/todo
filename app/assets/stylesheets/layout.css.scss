@@ -12,3 +12,7 @@ table.tasks {
 .message { margin-top: 1em; }
 
 .input-group-addon { width: auto; }
+
+ng-view {
+  table.tasks tr { cursor: text; }
+}

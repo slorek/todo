@@ -1,0 +1,25 @@
+<tr>
+  <td><%= link_to task.name, edit_task_path(task) %></td>
+
+  <td>
+    <% if task.due_date %>
+      <% if task.due_date < Time.now %>
+        <span class="label label-danger"><%= time_ago_in_words task.due_date %> ago</span>
+      <% else %>
+        <%= distance_of_time_in_words Time.now task.due_date %>
+      <% end %>
+    <% end %>
+  </td>
+
+  <td class="priority"><%= priority_options[task.priority] || task.priority %></td>
+
+  <td class="actions">
+    <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-danger' %>
+
+    <% if task.completed? %>
+      <%= button_to 'Mark Incomplete', incomplete_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+    <% else %>
+      <%= button_to 'Mark Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
+    <% end %>
+  </td>
+</tr>

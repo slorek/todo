@@ -1,76 +1,11 @@
-<div class="container">
+<div class="container" ng-app="todo">
   <h1>My List</h1>
+    
+  <%= render partial: 'angular' %>
   
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2 class="panel-title">Add a task</h2>
-    </div>
-    <div class="panel-body">
-      <%= render partial: 'form' %>
-    </div>
-  </div>
-  
-  <ul class="nav nav-tabs">
-    <li class="<%= completed_class(:pending) %>">
-      <%= link_to tasks_path do %>
-        Pending
-        <% if @pending_badge > 0 %>
-          <span class="badge"><%= @pending_badge %></span>
-        <% end %>
-      <% end %>
-    </li>
-    <li class="<%= completed_class(:completed) %>">
-      <%= link_to tasks_path(completed: true) do %>
-        Completed
-        <% if @completed_badge > 0 %>
-          <span class="badge"><%= @completed_badge %></span>
-        <% end %>
-      <% end %>
-    </li>
-  </ul>
-  
-  
-  <% if @tasks.count == 0 %>
-    <p class="message">You have no tasks.</p>
-  <% else %>    
-    <table class="table table-striped table-responsive tasks">
-      <thead>
-        <tr>
-          <th class="<%= sort_class(:name) %>"><%= link_to 'Name', tasks_path(completed: params[:completed]) %></th>
-          <th class="<%= sort_class(:due_date) %>"><%= link_to 'Due', tasks_path(sort: :due_date, completed: params[:completed]) %></th>
-          <th class="priority <%= sort_class(:priority) %>"><%= link_to 'Priority', tasks_path(sort: :priority, completed: params[:completed]) %></th>
-          <th class="actions"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @tasks.each do |task| %>
-          <tr>
-            <td><%= link_to task.name, edit_task_path(task) %></td>
-            
-            <td>
-              <% if task.due_date %>
-                <% if task.due_date < Time.now %>
-                  <span class="label label-danger"><%= time_ago_in_words task.due_date %> ago</span>
-                <% else %>
-                  <%= distance_of_time_in_words Time.now task.due_date %>
-                <% end %>
-              <% end %>
-            </td>
-            
-            <td class="priority"><%= priority_options[task.priority] || task.priority %></td>
-            
-            <td class="actions">
-              <%= button_to 'Delete', task_path(task.id), method: :delete, class: 'btn btn-danger' %>
-          
-              <% if task.completed? %>
-                <%= button_to 'Mark Incomplete', incomplete_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
-              <% else %>
-                <%= button_to 'Mark Complete', completed_task_path(task.id), method: :patch, class: 'btn btn-primary' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
+  <noscript>
+    <%= render partial: 'add' %>
+    <%= render partial: 'tabs' %>
+    <%= render partial: 'table' %>
+  </noscript>
 </div>

@@ -33,9 +33,20 @@ describe TasksController do
       end
       
       context "with valid parameters" do
-        it "redirects to tasks_path" do
-          post :create, params
-          expect(response).to redirect_to(tasks_path)
+        context "with HTML request" do
+          it "redirects to tasks_path" do
+            post :create, params
+            expect(response).to redirect_to(tasks_path)
+          end
+        end
+        
+        context "with JSON request" do
+          before { params['format'] = 'json' }
+          
+          it "returns 201 status" do
+            post :create, params
+            expect(response.status).to eq(201)
+          end
         end
       end
       
@@ -44,9 +55,20 @@ describe TasksController do
           { 'task' => {} }
         end
         
-        it "renders the #index view" do
-          post :create, params
-          expect(response).to render_template(:index)
+        context "with HTML request" do
+          it "renders the #index view" do
+            post :create, params
+            expect(response).to render_template(:index)
+          end
+        end
+        
+        context "with JSON request" do
+          before { params['format'] = 'json' }
+
+          it "returns 422 status" do
+            post :create, params
+            expect(response.status).to eq(422)
+          end
         end
       end
     end
@@ -69,6 +91,15 @@ describe TasksController do
         it "calls #destroy on the Task instance" do
           expect_any_instance_of(Task).to receive(:destroy)
           delete :destroy, params
+        end
+      end
+
+      context "with JSON request" do
+        before { params['format'] = 'json' }
+
+        it "returns 204 status" do
+          delete :destroy, params
+          expect(response.status).to eq(204)
         end
       end
     
@@ -102,6 +133,15 @@ describe TasksController do
           expect(task.completed?).to eq(true)
         end
       end
+      
+      context "with JSON request" do
+        before { params['format'] = 'json' }
+
+        it "returns 204 status" do
+          patch :completed, params
+          expect(response.status).to eq(204)
+        end
+      end
     
       context "with invalid parameters" do
         let(:params) { { 'id' => 'dsfsdsdf' } }
@@ -131,6 +171,15 @@ describe TasksController do
           patch :incomplete, params
           task.reload
           expect(task.completed?).to eq(false)
+        end
+      end
+
+      context "with JSON request" do
+        before { params['format'] = 'json' }
+
+        it "returns 204 status" do
+          patch :incomplete, params
+          expect(response.status).to eq(204)
         end
       end
     
@@ -198,9 +247,20 @@ describe TasksController do
       end
       
       context "with valid parameters" do
-        it "redirects to tasks_path" do
-          patch :update, params
-          expect(response).to redirect_to(tasks_path)
+        context "with HTML request" do
+          it "redirects to tasks_path" do
+            patch :update, params
+            expect(response).to redirect_to(tasks_path)
+          end
+        end
+        
+        context "with JSON request" do
+          before { params['format'] = 'json' }
+
+          it "returns 204 status" do
+            patch :update, params
+            expect(response.status).to eq(204)
+          end
         end
       end
       

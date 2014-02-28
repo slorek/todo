@@ -1,7 +1,5 @@
-json.array! @tasks do |task|
-  json.id task.id
-  json.name task.name
-  json.due_date task.due_date
-  json.priority task.priority
-  json.completed_at task.completed_at
+json.set! :pending_count, @pending_badge
+json.set! :completed_count, @completed_badge
+json.set! :tasks do
+  json.array! @tasks, :id, :name, :due_date, :priority, :completed_at
 end
