@@ -16,6 +16,8 @@
 //= require angular-route
 //= require bootstrap/tab
 //= require bootstrap/alert
+//= require bootstrap/collapse
+//= require bootstrap/transition
 //= require moment
 //= require bootstrap-datetimepicker
 //= require datepicker

@@ -29,7 +29,7 @@
           <div class="form-group col-md-3" ng-class="{'has-error': create_errors['due_date'].length}">
             <label for="due_date" class="sr-only">Due</label>
             <div class="input-group">
-              <input type="datetime" id="due_date" name="due_date" class="form-control datepicker" data-format="DD/MM/YYYY HH:mm" placeholder="Due date" ng-model= "new_task.due_date" date-picker>
+              <input type="datetime" id="due_date" name="due_date" class="form-control datepicker" data-format="DD/MM/YYYY HH:mm" placeholder="Due date" ng-model= "new_task.due_date">
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
             <span class="label label-danger" ng-if="create_errors['due_date'].length">{{ create_errors['due_date'].join(", ") }}</span>
