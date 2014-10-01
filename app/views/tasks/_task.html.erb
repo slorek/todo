@@ -6,7 +6,7 @@
       <% if task.due_date < Time.now %>
         <span class="label label-danger"><%= time_ago_in_words task.due_date %> ago</span>
       <% else %>
-        <%= distance_of_time_in_words Time.now task.due_date %>
+        <%= distance_of_time_in_words Time.now, task.due_date %>
       <% end %>
     <% end %>
   </td>
